@@ -138,9 +138,6 @@ jobs:
             exit 0
           fi
         fi
-        echo "has_new_version=true" >> $GITHUB_OUTPUT
-        wget -nv -O CHANGELOG https://download.mikrotik.com/routeros/routeros/$LATEST_VERSION/CHANGELOG
-        cat CHANGELOG
         if [[ "${{ matrix.arch }}" == "arm64" ]]; then
           echo "ARCH=-arm64" >> $GITHUB_ENV
         elif [[ "${{ matrix.arch }}" == "arm" ]]; then
@@ -688,7 +685,6 @@ jobs:
       if: steps.get_latest.outputs.has_new_version == 'true' && env.RELEASE == 'true'
       run: |
         sudo mkdir -p ./publish/$LATEST_VERSION
-        sudo cp CHANGELOG ./publish/$LATEST_VERSION/
         sudo cp ./all_packages/*.npk ./publish/$LATEST_VERSION/
         # sudo cp mikrotik-${{ env.LATEST_VERSION }}${{ env.ARCH }}.iso ./publish/$LATEST_VERSION/ 2>/dev/null || true
         # sudo cp chr-${{ env.LATEST_VERSION }}*.zip ./publish/$LATEST_VERSION/ 2>/dev/null || true
